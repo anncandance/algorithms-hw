@@ -1,0 +1,54 @@
+#include <iostream>
+#include <string>
+using namespace std ;
+
+
+// префикс-функция, возвращает указатель на массив длины = длине принимаемой строки //
+
+int* prefix(string s) {
+    int n = s.size(), i = 1, j;
+    int *p;
+    p = new int[n];
+    p[0] = 0;
+    for (; i < n; ++i) {
+        j = p[i - 1];
+        int t=i;
+        while ((j > 0) && (s[t] != s[j])) {
+            j = p[t - 1]; --t;}
+        if (s[i] == s[j]) ++j;
+    p[i] = j;
+    }
+    return p;
+}
+
+
+// возвращает значение минимального периода принимаемой строки,
+// принцип: зная минимальный период подстроки s[:i], увеличиваем i в 2 раза и смотрим в префикс-функцию
+// если что-то сломалось и p[2i]!=i, находим идндекс j правого 0 в префикс-функции, принимаем за новый min период
+// остается проверить "хвост", если длина строки не степень 2
+
+int min_period(string s){
+    unsigned int i=1, k=1, mink=1, j=0; // k-максимальный период, i-позиция;
+    int *p = prefix(s);
+    while(i*2<=s.size()-1){
+        if (p[i]==k) {i*=2; j=i; k*=2;}
+        else
+        for(j=i; j>i/2; --j) if (p[j]==0) {mink = j+1; k=j+1; i=j; break;}
+        i*=2;}
+    if ((j<s.size()-1))
+    {
+        if (s.size()-1-j<=p[s.size()-1]) return mink; // можно убрать
+        mink=s.size();
+    };
+    return mink;
+}
+
+
+int main() {
+    string s;
+    cout<<"введите строку";
+    cin>>s;
+    int *p = prefix(s);
+    cout<<min_period(s);
+    return 0;
+}
