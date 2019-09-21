@@ -36,7 +36,7 @@ int min_period(string s){
         i*=2;}
     if ((j<s.size()-1))
     {
-        if (s.size()-1-j<=p[s.size()-1]) return mink; // можно убрать
+        if (s.size()-1-j<=p[s.size()-1]) return mink; 
         mink=s.size();
     };
     return mink;
