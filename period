@@ -6,20 +6,19 @@ using namespace std ;
 // префикс-функция, возвращает указатель на массив длины = длине принимаемой строки //
 
 int* prefix(string s) {
-    int n = s.size(), i = 1, j;
+    int n = s.size(), i;
     int *p;
     p = new int[n];
-    p[0] = 0;
-    for (; i < n; ++i) {
-        j = p[i - 1];
-        int t=i;
-        while ((j > 0) && (s[t] != s[j])) {
-            j = p[t - 1]; --t;}
+    for(i=0; i<n; ++i) p[i]=0;
+    for (i=1; i < n; ++i) {
+        int j = p[i - 1];
+        while ((j > 0) && (s[i] != s[j])) {
+            j = p[j - 1]; }
         if (s[i] == s[j]) ++j;
-    p[i] = j;
+        p[i] = j;
     }
     return p;
-}
+    }
 
 
 // возвращает значение минимального периода принимаемой строки,
